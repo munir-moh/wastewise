@@ -75,10 +75,10 @@ with app.app_context():
         ))
 
         db.session.commit()
-        print("✅ Done!")
+        print("  Done!")
         print("  admin@wastewise.ng      / Admin1234!")
         print("  community@wastewise.ng  / Admin1234!")
         print("  collector@wastewise.ng  / Collect1234!")
         print("  household@wastewise.ng  / House1234!")
     else:
-        print("ℹ️  Already seeded.")
+        print("  Already seeded.")

@@ -1,0 +1,915 @@
+{
+  "info": {
+    "name": "WasteWise Nigeria API",
+    "description": "Complete Postman collection for testing the WasteWise Nigeria backend API. \n\nSetup:\n1. Set the `base_url` variable to `http://localhost:5000`\n2. Run Login first — the token is saved automatically to the `token` variable\n3. All protected requests use the saved token automatically",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:5000", "type": "string" },
+    { "key": "token", "value": "", "type": "string" }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+  },
+  "item": [
+
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/health", "host": ["{{base_url}}"], "path": ["health"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register — Household",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/register", "host": ["{{base_url}}"], "path": ["api", "auth", "register"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Amaka Johnson\",\n  \"email\": \"amaka@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"HOUSEHOLD\",\n  \"phone\": \"08012345678\",\n  \"address\": \"15 Adeola Odeku, Victoria Island\",\n  \"latitude\": 6.4281,\n  \"longitude\": 3.4219,\n  \"lga\": \"Eti-Osa\",\n  \"state\": \"Lagos\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Register — Collector",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/register", "host": ["{{base_url}}"], "path": ["api", "auth", "register"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Emeka Collector\",\n  \"email\": \"emeka@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"COLLECTOR\",\n  \"phone\": \"08087654321\",\n  \"address\": \"22 Allen Avenue, Ikeja\",\n  \"lga\": \"Ikeja\",\n  \"state\": \"Lagos\",\n  \"service_radius\": 5.0,\n  \"service_area\": \"Ikeja, Maryland, Alausa\",\n  \"accepted_waste_types\": [\"PLASTIC\", \"PAPER\", \"GLASS\", \"METAL\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "Login — Household (Seed)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.token) {",
+                  "  pm.collectionVariables.set('token', res.token);",
+                  "  console.log('Token saved:', res.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/login", "host": ["{{base_url}}"], "path": ["api", "auth", "login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"household@wastewise.ng\",\n  \"password\": \"House1234!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login — Collector (Seed)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.token) { pm.collectionVariables.set('token', res.token); }"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/login", "host": ["{{base_url}}"], "path": ["api", "auth", "login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"collector@wastewise.ng\",\n  \"password\": \"Collect1234!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login — Community Admin (Seed)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.token) { pm.collectionVariables.set('token', res.token); }"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/login", "host": ["{{base_url}}"], "path": ["api", "auth", "login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"community@wastewise.ng\",\n  \"password\": \"Admin1234!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login — Super Admin (Seed)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.token) { pm.collectionVariables.set('token', res.token); }"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/login", "host": ["{{base_url}}"], "path": ["api", "auth", "login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@wastewise.ng\",\n  \"password\": \"Admin1234!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get My Profile",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/api/auth/me", "host": ["{{base_url}}"], "path": ["api", "auth", "me"] }
+          }
+        },
+        {
+          "name": "Update My Profile",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/me", "host": ["{{base_url}}"], "path": ["api", "auth", "me"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Amaka Johnson-Obi\",\n  \"phone\": \"08099999999\",\n  \"address\": \"20 Broad Street, Lagos Island\",\n  \"lga\": \"Lagos Island\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/auth/change-password", "host": ["{{base_url}}"], "path": ["api", "auth", "change-password"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"current_password\": \"House1234!\",\n  \"new_password\": \"NewPassword456!\"\n}"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Collections",
+      "item": [
+        {
+          "name": "Create Collection Request (Household)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/api/collections", "host": ["{{base_url}}"], "path": ["api", "collections"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"waste_types\": [\"PLASTIC\", \"PAPER\"],\n  \"address\": \"12 Allen Avenue, Ikeja\",\n  \"description\": \"Two bags of plastic bottles and newspapers\",\n  \"scheduled_at\": \"2025-07-01T09:00:00\",\n  \"latitude\": 6.6018,\n  \"longitude\": 3.3515,\n  \"household_note\": \"Please call before arriving\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get My Requests (Household)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/collections/my",
+              "host": ["{{base_url}}"],
+              "path": ["api", "collections", "my"]
+            }
+          }
+        },
+        {
+          "name": "Get My Requests — Filter by Status",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/collections/my?status=PENDING",
+              "host": ["{{base_url}}"],
+              "path": ["api", "collections", "my"],
+              "query": [{ "key": "status", "value": "PENDING" }]
+            }
+          }
+        },
+        {
+          "name": "Cancel a Request (Household)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/collections/1/cancel",
+              "host": ["{{base_url}}"],
+              "path": ["api", "collections", "1", "cancel"]
+            }
+          }
+        },
+        {
+          "name": "Get Available Requests (Collector)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/collections/available",
+              "host": ["{{base_url}}"],
+              "path": ["api", "collections", "available"]
+            }
+          }
+        },
+        {
+          "name": "Get Assigned Requests (Collector)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/collections/assigned",
+              "host": ["{{base_url}}"],
+              "path": ["api", "collections", "assigned"]
+            }
+          }
+        },
+        {
+          "name": "Accept a Request (Collector)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/collections/1/accept",
+              "host": ["{{base_url}}"],
+              "path": ["api", "collections", "1", "accept"]
+            }
+          }
+        },
+        {
+          "name": "Update Status — EN_ROUTE (Collector)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/api/collections/1/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "collections", "1", "status"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"EN_ROUTE\",\n  \"collector_note\": \"On my way, ETA 15 minutes\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Status — COLLECTED (Collector)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/api/collections/1/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "collections", "1", "status"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"COLLECTED\",\n  \"collector_note\": \"Successfully collected 2 bags\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Collections (Admin)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/collections?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "collections"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Recycling Centers",
+      "item": [
+        {
+          "name": "List All Centers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/recycling-centers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recycling-centers"]
+            }
+          }
+        },
+        {
+          "name": "List Centers — Filter by LGA",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/recycling-centers?lga=Ikeja",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recycling-centers"],
+              "query": [{ "key": "lga", "value": "Ikeja" }]
+            }
+          }
+        },
+        {
+          "name": "List Centers — Filter by Material",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/recycling-centers?material=E_WASTE",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recycling-centers"],
+              "query": [{ "key": "material", "value": "E_WASTE" }]
+            }
+          }
+        },
+        {
+          "name": "Get Single Center",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/recycling-centers/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recycling-centers", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Center (Super Admin)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/api/recycling-centers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recycling-centers"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"CleanCity Recyclers\",\n  \"address\": \"10 Marina Road, Lagos Island\",\n  \"latitude\": 6.4541,\n  \"longitude\": 3.3947,\n  \"lga\": \"Lagos Island\",\n  \"state\": \"Lagos\",\n  \"phone\": \"08033333333\",\n  \"email\": \"info@cleancity.ng\",\n  \"opening_hours\": \"Mon-Fri: 8am - 6pm\",\n  \"accepted_materials\": [\"E_WASTE\", \"METAL\", \"PLASTIC\"],\n  \"description\": \"Specializes in electronic waste\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Center (Super Admin)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/api/recycling-centers/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recycling-centers", "1"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"is_verified\": true,\n  \"opening_hours\": \"Mon-Sat: 7am - 6pm\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Center (Super Admin)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/recycling-centers/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "recycling-centers", "1"]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Dump Reports",
+      "item": [
+        {
+          "name": "Submit Dump Report",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/api/dump-reports",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dump-reports"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Large pile of refuse dumped by the roadside near the bus stop\",\n  \"address\": \"Beside Shoprite, Ikeja City Mall\",\n  \"latitude\": 6.6018,\n  \"longitude\": 3.3515,\n  \"lga\": \"Ikeja\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get My Reports",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/dump-reports/my",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dump-reports", "my"]
+            }
+          }
+        },
+        {
+          "name": "Get All Reports (Admin)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/dump-reports?status=OPEN&page=1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dump-reports"],
+              "query": [
+                { "key": "status", "value": "OPEN" },
+                { "key": "page", "value": "1" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark Report Reviewed (Admin)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/api/dump-reports/1/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dump-reports", "1", "status"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"REVIEWED\",\n  \"admin_note\": \"Forwarded to sanitation department\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Mark Report Resolved (Admin)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/api/dump-reports/1/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dump-reports", "1", "status"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"RESOLVED\",\n  \"admin_note\": \"Clean-up crew dispatched and completed on 01/07/2025\"\n}"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Resources",
+      "item": [
+        {
+          "name": "List Published Resources",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/resources",
+              "host": ["{{base_url}}"],
+              "path": ["api", "resources"]
+            }
+          }
+        },
+        {
+          "name": "List Resources — Filter by Type",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/resources?type=ARTICLE",
+              "host": ["{{base_url}}"],
+              "path": ["api", "resources"],
+              "query": [{ "key": "type", "value": "ARTICLE" }]
+            }
+          }
+        },
+        {
+          "name": "Search Resources",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/resources?search=waste",
+              "host": ["{{base_url}}"],
+              "path": ["api", "resources"],
+              "query": [{ "key": "search", "value": "waste" }]
+            }
+          }
+        },
+        {
+          "name": "Get Single Resource",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/resources/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "resources", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Resource (Super Admin)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/api/resources",
+              "host": ["{{base_url}}"],
+              "path": ["api", "resources"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Composting at Home\",\n  \"content\": \"Composting is the process of recycling organic matter such as leaves and food scraps into a valuable fertilizer...\",\n  \"summary\": \"A beginner's guide to composting organic kitchen waste.\",\n  \"type\": \"ARTICLE\",\n  \"tags\": [\"composting\", \"organic\", \"beginner\"],\n  \"is_published\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Publish a Resource (Super Admin)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/api/resources/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "resources", "1"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"is_published\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Resource (Super Admin)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/resources/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "resources", "1"]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Announcements",
+      "item": [
+        {
+          "name": "Get My Announcements",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/announcements",
+              "host": ["{{base_url}}"],
+              "path": ["api", "announcements"]
+            }
+          }
+        },
+        {
+          "name": "Create Announcement — LGA Targeted (Community Admin)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/api/announcements",
+              "host": ["{{base_url}}"],
+              "path": ["api", "announcements"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Waste Collection Schedule Change\",\n  \"body\": \"Collections in Ikeja will shift to Saturdays starting July.\",\n  \"lga\": \"Ikeja\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create Announcement — Global Broadcast (Super Admin)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/api/announcements",
+              "host": ["{{base_url}}"],
+              "path": ["api", "announcements"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Platform Maintenance Notice\",\n  \"body\": \"The platform will be unavailable for 2 hours on Sunday 6 July from 2am - 4am.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Announcement (Super Admin)",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/announcements/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "announcements", "1"]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Get My Notifications",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/notifications",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications"]
+            }
+          }
+        },
+        {
+          "name": "Get Unread Notifications Only",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/notifications?unread_only=true",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications"],
+              "query": [{ "key": "unread_only", "value": "true" }]
+            }
+          }
+        },
+        {
+          "name": "Mark All Notifications Read",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/notifications/read-all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "read-all"]
+            }
+          }
+        },
+        {
+          "name": "Mark One Notification Read",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/notifications/1/read",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "1", "read"]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get Analytics Dashboard",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/analytics",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "analytics"]
+            }
+          }
+        },
+        {
+          "name": "Get Analytics — Filter by LGA",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/analytics?lga=Ikeja",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "analytics"],
+              "query": [{ "key": "lga", "value": "Ikeja" }]
+            }
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/users?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Users — Filter by Role",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/users?role=COLLECTOR",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users"],
+              "query": [{ "key": "role", "value": "COLLECTOR" }]
+            }
+          }
+        },
+        {
+          "name": "Search Users",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/users?search=amaka",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users"],
+              "query": [{ "key": "search", "value": "amaka" }]
+            }
+          }
+        },
+        {
+          "name": "Promote User to Community Admin",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/api/admin/users/2/role",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users", "2", "role"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"COMMUNITY_ADMIN\",\n  \"admin_lga\": \"Ikeja\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Change User Role to Collector",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": {
+              "raw": "{{base_url}}/api/admin/users/3/role",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users", "3", "role"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"COLLECTOR\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Ban / Unban User",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/users/5/toggle-active",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users", "5", "toggle-active"]
+            }
+          }
+        },
+        {
+          "name": "Get Available Collectors",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/collectors",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "collectors"]
+            }
+          }
+        },
+        {
+          "name": "Get Collectors — Filter by LGA",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}" }] },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/admin/collectors?lga=Ikeja",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "collectors"],
+              "query": [{ "key": "lga", "value": "Ikeja" }]
+            }
+          }
+        }
+      ]
+    }
+
+  ]
+}
