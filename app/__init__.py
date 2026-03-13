@@ -44,7 +44,6 @@ def create_app():
     def health():
         return {"status": "OK", "app": "WasteWise Nigeria"}
 
-    # Serve uploaded images
     from flask import send_from_directory
     @app.get("/uploads/<path:filename>")
     def uploaded_file(filename):

@@ -6,7 +6,7 @@ from app.models import User, Role, RecyclingCenter, Resource, ResourceType, Anno
 app = create_app()
 
 with app.app_context():
-    print("🌱 Seeding WasteWise database...")
+    print(" Seeding WasteWise database...")
 
     if not User.query.filter_by(email="admin@wastewise.ng").first():
         admin = User(
